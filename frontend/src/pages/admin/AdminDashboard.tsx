@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Building, Briefcase, FileText, CheckCircle, Clock } from 'lucide-react';
 import api from '../../lib/api';

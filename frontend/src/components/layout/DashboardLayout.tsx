@@ -1,7 +1,6 @@
-import React from 'react';
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LogOut, LayoutDashboard, Briefcase, GraduationCap, FileText, Bell, ChevronLeft, Building } from 'lucide-react';
+import { LogOut, LayoutDashboard, Briefcase, GraduationCap, FileText, Bell, Building } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
 
