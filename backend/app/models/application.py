@@ -16,7 +16,7 @@ class Application(Base):
     __table_args__ = (UniqueConstraint('drive_id', 'student_id', name='_drive_student_uc'),)
 
     drive = relationship("Drive", back_populates="applications")
-    student = relationship("StudentProfile", back_populates="applications")
+    student = relationship("StudentProfile", back_populates="applications", primaryjoin="foreign(Application.student_id) == StudentProfile.user_id")
 
 class Result(Base):
     __tablename__ = "results"

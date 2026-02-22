@@ -1,13 +1,22 @@
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LogOut, LayoutDashboard, Briefcase, GraduationCap, FileText, Bell, Building } from 'lucide-react';
+import { LogOut, LayoutDashboard, Briefcase, GraduationCap, FileText, Bell, Building, Loader2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
 
 export default function DashboardLayout({ requireAdmin = false }) {
-    const { user, isAuthenticated, logout } = useAuth();
+    const { user, isAuthenticated, isLoading, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+                <Loader2 className="h-8 w-8 text-primary animate-spin mb-4" />
+                <p className="text-text-secondary">Loading your workspace...</p>
+            </div>
+        );
+    }
 
     if (!isAuthenticated) return <Navigate to="/login" replace />;
     if (requireAdmin && user?.role !== 'admin') return <Navigate to="/student" replace />;

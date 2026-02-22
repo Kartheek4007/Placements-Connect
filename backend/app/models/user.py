@@ -26,4 +26,4 @@ class StudentProfile(Base):
     resume_url = Column(String, nullable=True)
 
     user = relationship("User", back_populates="profile")
-    applications = relationship("Application", back_populates="student")
+    applications = relationship("Application", back_populates="student", primaryjoin="foreign(Application.student_id) == StudentProfile.user_id")

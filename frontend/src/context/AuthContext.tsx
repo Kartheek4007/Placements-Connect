@@ -20,7 +20,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(() => {
+        const stored = localStorage.getItem('user_data');
+        return stored ? JSON.parse(stored) : null;
+    });
     const [token, setToken] = useState<string | null>(localStorage.getItem('access_token'));
     const [isLoading, setIsLoading] = useState(true);
 
@@ -30,10 +33,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 try {
                     const res = await api.get('/users/me');
                     setUser(res.data);
+                    localStorage.setItem('user_data', JSON.stringify(res.data));
                 } catch (error) {
                     console.error('Session expired or invalid token');
                     logout();
                 }
+            } else {
+                setUser(null);
             }
             setIsLoading(false);
         };
@@ -42,12 +48,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const login = (newToken: string, userData: User) => {
         localStorage.setItem('access_token', newToken);
+        localStorage.setItem('user_data', JSON.stringify(userData));
         setToken(newToken);
         setUser(userData);
     };
 
     const logout = () => {
         localStorage.removeItem('access_token');
+        localStorage.removeItem('user_data');
         setToken(null);
         setUser(null);
     };
