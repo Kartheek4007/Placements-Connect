@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
-import { Briefcase, Plus, Search, Trash2, Loader2, Calendar, MapPin, DollarSign, Power, Link as LinkIcon } from 'lucide-react';
+import { Briefcase, Plus, Search, Trash2, Loader2, Calendar, MapPin, DollarSign, Link as LinkIcon } from 'lucide-react';
 import api from '../../lib/api';
 
 interface Company {
