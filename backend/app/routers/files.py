@@ -56,3 +56,27 @@ async def upload_jd(file: UploadFile = File(...), admin: User = Depends(get_curr
             
     public_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/job_descriptions/{file_name}"
     return {"url": public_url}
+@router.post("/upload/result")
+async def upload_result(file: UploadFile = File(...), admin: User = Depends(get_current_admin_user)):
+    allowed_exts = [".pdf", ".xls", ".xlsx"]
+    if not any(file.filename.lower().endswith(ext) for ext in allowed_exts):
+        raise HTTPException(status_code=400, detail="Only PDF and Excel files are allowed")
+        
+    file_content = await file.read()
+    file_ext = file.filename.split(".")[-1]
+    file_name = f"result_{uuid.uuid4().hex}.{file_ext}"
+    
+    url = f"{settings.SUPABASE_URL}/storage/v1/object/results/{file_name}"
+    headers = {
+        "apikey": settings.SUPABASE_KEY,
+        "Authorization": f"Bearer {settings.SUPABASE_KEY}",
+        "Content-Type": file.content_type
+    }
+    
+    async with AsyncClient() as client:
+        response = await client.post(url, content=file_content, headers=headers)
+        if response.status_code >= 400:
+            raise HTTPException(status_code=500, detail=response.text)
+            
+    public_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/results/{file_name}"
+    return {"url": public_url}

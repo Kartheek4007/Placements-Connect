@@ -45,6 +45,7 @@ class UserProfileResponse(UserResponse):
 class CompanyBase(BaseModel):
     name: str
     description: Optional[str] = None
+    application_link: Optional[str] = None
 
 class CompanyCreate(CompanyBase):
     pass
@@ -68,6 +69,15 @@ class DriveBase(BaseModel):
 
 class DriveCreate(DriveBase):
     company_id: UUID
+
+class DriveUpdate(BaseModel):
+    role: Optional[str] = None
+    ctc: Optional[str] = None
+    location: Optional[str] = None
+    eligibility_cgpa: Optional[float] = None
+    deadline: Optional[datetime] = None
+    status: Optional[str] = None
+    application_link: Optional[str] = None
 
 class DriveResponse(DriveBase):
     id: UUID
@@ -113,6 +123,7 @@ class ApplicationResponse(ApplicationBase):
         from_attributes = True
 
 class ResultBase(BaseModel):
+    title: str
     file_url: str
 
 class ResultCreate(ResultBase):
@@ -121,6 +132,7 @@ class ResultCreate(ResultBase):
 class ResultResponse(ResultBase):
     id: UUID
     drive_id: UUID
+    drive: DriveResponse
     published_at: datetime
 
     class Config:

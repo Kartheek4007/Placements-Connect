@@ -10,6 +10,7 @@ class Company(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, index=True, nullable=False)
     description = Column(Text, nullable=True)
+    application_link = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     drives = relationship("Drive", back_populates="company", cascade="all, delete-orphan")

@@ -72,6 +72,10 @@ def post_result(result: ResultCreate, db: Session = Depends(get_db), admin: User
     db.refresh(db_result)
     return db_result
 
+@router.get("/results/all", response_model=List[ResultResponse])
+def get_all_results(db: Session = Depends(get_db)):
+    return db.query(Result).all()
+
 @router.get("/results/drive/{drive_id}", response_model=List[ResultResponse])
 def get_drive_results(drive_id: UUID, db: Session = Depends(get_db)):
     return db.query(Result).filter(Result.drive_id == drive_id).all()

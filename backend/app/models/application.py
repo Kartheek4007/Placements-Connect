@@ -22,6 +22,7 @@ class Result(Base):
     __tablename__ = "results"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     drive_id = Column(UUID(as_uuid=True), ForeignKey("drives.id"), nullable=False)
+    title = Column(String, nullable=False)
     file_url = Column(String, nullable=False)
     published_at = Column(DateTime, default=datetime.utcnow)
 
